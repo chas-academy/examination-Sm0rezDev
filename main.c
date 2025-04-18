@@ -9,19 +9,14 @@
 #define MAX_NAME_LEN 10
 
 typedef enum { // Enums for Exam scores, no need to index exam score with magic numbers e.g 0 1 2 ... 4 5 6...
-    EXAM_1,
-    EXAM_2,
-    EXAM_3,
-    EXAM_4,
-    EXAM_5,
-    EXAM_6,
-    EXAM_7,
-    EXAM_8,
-    EXAM_9,
-    EXAM_10,
-    EXAM_11,
-    EXAM_12,
-    EXAM_13
+    EXAM_1,  EXAM_2,
+    EXAM_3,  EXAM_4,
+    EXAM_5,  EXAM_6,
+    EXAM_7,  EXAM_8,
+    EXAM_9,  EXAM_10,
+    EXAM_11, EXAM_12,
+    EXAM_13, EXAM_N
+
 } Exams;
 
 typedef struct Student { // Data structure for Students.
@@ -44,7 +39,16 @@ void get_input(Student *s) {
             &s[i].score[EXAM_11], &s[i].score[EXAM_12],
             &s[i].score[EXAM_13]
         );
+    
+        for (int j = 0; j < EXAM_N; j++) {
+            /*
+                Check's if score is less than 0 or greater than 10,
+                Exits if conditions are meet.
+            */ 
+            (s[i].score[j] < 0 || s[i].score[j] > 10) ? exit(1) : NULL;
+        }
     }
+
 }
 
 float get_score_mean(Student *s) {
