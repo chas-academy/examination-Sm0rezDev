@@ -28,7 +28,7 @@ typedef struct Student { // Data structure for Students.
 
 void get_input(Student *s) { // Get inputs.
     for (int i = 0; i < ENTRY; i++) {
-        s[i].name = malloc(MAX_NAME_LEN);
+        s[i].name = malloc(MAX_NAME_LEN+1); // Memory allocation for name + null terminator.
 
         scanf("%s %d %d %d %d %d %d %d %d %d %d %d %d %d",
             s[i].name,
@@ -49,7 +49,7 @@ void get_input(Student *s) { // Get inputs.
             exit(1);
         }
     
-        for (int j = 0; j < EXAM_N; j++) {
+        for (int j = 0; j < EXAM_N - 1; j++) {
             /*
                 Check's if score is less than 0 or greater than 10,
                 Exits if conditions are meet.
@@ -73,10 +73,10 @@ void get_input(Student *s) { // Get inputs.
 void calculate_mean(Student *s) { // Calculate mean score of each student.
     int score_sum = 0;
     for(size_t i = 0; i < ENTRY; i++) {
-        for(size_t j = 0; j < EXAM_N; j++) {
+        for(size_t j = 0; j < EXAM_N - 1; j++) {
             score_sum += s[i].score[j];
         }
-        s[i].mean_score = (float)score_sum/EXAM_N;
+        s[i].mean_score = (float)score_sum/EXAM_N - 1;
         score_sum = 0;
     }
 }
@@ -101,7 +101,7 @@ char *get_highest_mean_score(Student *s) { // Get student with the highest avera
     return s[index].name;
 }
 
-void get_predecessor(Student *s, char predecessor[][MAX_NAME_LEN], float threshold) { // Get student with score below the average score.
+void get_predecessor(Student *s, char predecessor[][MAX_NAME_LEN+1], float threshold) { // Get student with score below the average score.
     int index = 0;
     for (size_t i = 0; i < ENTRY; i++) {
         if (threshold >= s[i].mean_score) {
@@ -120,7 +120,7 @@ int main() {
 
     float score_threshold = calculate_overall_score(s);
     char *best = get_highest_mean_score(s);
-    char predecessor[][10] = {0};
+    char predecessor[][MAX_NAME_LEN+1] = {0};
     get_predecessor(s, predecessor, score_threshold);
 
     puts(best);
